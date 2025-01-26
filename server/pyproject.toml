@@ -1,9 +1,12 @@
 [tool.poetry]
-name = "vocabulary-drills"
-version = "0.0.0"
-description = ""
+name = "server"
+version = "0.1.0"
+description = "vocabulary drills server"
 authors = ["Suyeon Kang <suyeon.dev@gmail.com>"]
+license = "MIT"
 readme = "README.md"
+
+packages = [{ include = "app" }]
 
 [tool.poetry.dependencies]
 python = "^3.13"
@@ -33,7 +36,3 @@ profile = "black"
 line_length = 88
 known_third_party = ["requests", "fastapi"]
 multi_line_output = 3
-
-[tool.poetry.scripts]
-format = "bash -c 'isort . && black .'"
-start = "uvicorn app.main:app --port 8080 --reload"
