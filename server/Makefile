@@ -24,6 +24,6 @@ format: install
 test: install
 	poetry run pytest tests -v
 
-.PHONY: run-fastapi-dev
-run-fastapi-dev: poetry-install
+.PHONY: start-server
+start-server: poetry-install
 	poetry run uvicorn app.main:app --reload
