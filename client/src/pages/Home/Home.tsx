@@ -26,12 +26,15 @@ const Home = () => {
             params={params}
             updateParams={updateParams}
             onClickFeedback={generateFeedbackApi}
+            isFeedbackLoading={isFeedbackLoading}
           />
         </div>
 
         <div className="w-full lg:w-1/2 p-5">
           {isFeedbackLoading ? (
-            <Loader2 className="w-4 h-4 animate-spin" />
+            <div className="flex items-center justify-center h-full">
+              <Loader2 className="animate-spin" size={32} />
+            </div>
           ) : (
             <SentenceFeedback feedback={feedback} />
           )}

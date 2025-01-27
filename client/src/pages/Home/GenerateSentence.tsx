@@ -14,12 +14,14 @@ interface GenerateSentenceProps {
   params: UseFeedbackParamsReturn["params"];
   updateParams: UseFeedbackParamsReturn["updateParams"];
   onClickFeedback: () => void;
+  isFeedbackLoading: boolean;
 }
 
 const GenerateSentence = ({
   params,
   updateParams,
   onClickFeedback,
+  isFeedbackLoading,
 }: GenerateSentenceProps) => {
   const [sentenceLength, setSentenceLength] =
     useState<SentenceLength>("medium");
@@ -82,11 +84,12 @@ const GenerateSentence = ({
         <Button
           variant="default"
           className="mt-5 cursor-pointer block ml-auto"
-          disabled={sentence === "" || params.userSentence === ""}
+          disabled={
+            sentence === "" || params.userSentence === "" || isFeedbackLoading
+          }
           onClick={onClickFeedback}
         >
           Submit
-          {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
         </Button>
       </div>
     </>
