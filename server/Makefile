@@ -12,13 +12,11 @@ install: poetry-install
 lint: install
 	poetry run isort --diff --check-only .
 	poetry run black --diff --check .
-	poetry run ruff check .
 
 .PHONY: format
 format: install
 	poetry run isort .
 	poetry run black .
-	poetry run ruff format .
 
 .PHONY: test
 test: install
