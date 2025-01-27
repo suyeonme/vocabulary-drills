@@ -15,9 +15,9 @@ async def generate_sentence(length: SentenceLength) -> str:
     if length == "short":
         prompt += "(50-100 characters)"
     elif length == "medium":
-        prompt = "(100-200 characters)"
+        prompt += "(100-200 characters)"
     elif length == "long":
-        prompt = "(200-300 characters)"
+        prompt += "(200-300 characters)"
     else:
         raise ValueError("Invalid sentence length")
 
