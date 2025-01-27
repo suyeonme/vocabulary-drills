@@ -7,3 +7,8 @@ SentenceLength = Literal["short", "medium", "long"]
 
 class SentenceRequest(BaseModel):
     sentence_length: SentenceLength
+
+
+class FeedbackRequest(BaseModel):
+    sentence: str
+    user_sentence: str
