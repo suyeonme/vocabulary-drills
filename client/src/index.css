@@ -1,5 +1,15 @@
 @import "tailwindcss";
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body {
   font-family: "Courier", "Courier New", monospace;
+}
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+  }
 }
