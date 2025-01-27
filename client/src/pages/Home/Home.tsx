@@ -1,21 +1,20 @@
-import { useState } from "react";
+import { Loader2 } from "lucide-react";
 import Header from "@/components/Header";
-import type { SentenceLength } from "@/api/api.type";
-import useGenerateSentence from "@/hooks/useGenerateSentence";
 import GenerateSentence from "./GenerateSentence";
-import { Title } from "@/components/Title";
-import { Textarea } from "@/components/ui/textarea";
+import useFeedbackParams from "@/hooks/useFeedbackParams";
+import useGenerateFeedback from "@/hooks/useGenerateFeedback";
+import SentenceFeedback from "./SentenceFeedback";
 
 const Home = () => {
-  const [sentenceLength, setSentenceLength] =
-    useState<SentenceLength>("medium");
+  const { params, updateParams } = useFeedbackParams();
 
-  const handleChangeSentenceLength = (length: SentenceLength): void => {
-    setSentenceLength(length);
-  };
-
-  const { sentence, generateSentenceApi, isLoading } = useGenerateSentence({
-    sentenceLength,
+  const {
+    feedback,
+    generateFeedbackApi,
+    isLoading: isFeedbackLoading,
+  } = useGenerateFeedback({
+    sentence: params.sentence,
+    userSentence: params.userSentence,
   });
 
   return (
@@ -24,15 +23,19 @@ const Home = () => {
       <div className="flex flex-wrap lg:flex-row flex-col">
         <div className="w-full lg:w-1/2 p-5 border-b lg:border-b-0 lg:border-r border-gray-400">
           <GenerateSentence
-            sentence={sentence}
-            sentenceLength={sentenceLength}
-            onChangeRadioGroup={handleChangeSentenceLength}
-            isLoading={isLoading}
-            onGenerate={generateSentenceApi}
+            params={params}
+            updateParams={updateParams}
+            onClickFeedback={generateFeedbackApi}
           />
         </div>
 
-        <div className="w-full lg:w-1/2 p-5"></div>
+        <div className="w-full lg:w-1/2 p-5">
+          {isFeedbackLoading ? (
+            <Loader2 className="w-4 h-4 animate-spin" />
+          ) : (
+            <SentenceFeedback feedback={feedback} />
+          )}
+        </div>
       </div>
     </section>
   );

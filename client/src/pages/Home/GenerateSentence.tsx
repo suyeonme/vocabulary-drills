@@ -1,27 +1,41 @@
+import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import type { SentenceLength } from "@/api/api.type";
 import { Title } from "@/components/Title";
+import useGenerateSentence from "@/hooks/useGenerateSentence";
+import { UseFeedbackParamsReturn } from "@/hooks/useFeedbackParams";
 
 const SENTENCE_LENGTHS = ["short", "medium", "long"];
 
 interface GenerateSentenceProps {
-  sentence: string;
-  sentenceLength: SentenceLength;
-  onChangeRadioGroup: (length: SentenceLength) => void;
-  isLoading: boolean;
-  onGenerate: () => void;
+  params: UseFeedbackParamsReturn["params"];
+  updateParams: UseFeedbackParamsReturn["updateParams"];
+  onClickFeedback: () => void;
 }
 
 const GenerateSentence = ({
-  sentence,
-  isLoading,
-  sentenceLength,
-  onChangeRadioGroup,
-  onGenerate,
+  params,
+  updateParams,
+  onClickFeedback,
 }: GenerateSentenceProps) => {
+  const [sentenceLength, setSentenceLength] =
+    useState<SentenceLength>("medium");
+
+  const handleChangeSentenceLength = (length: SentenceLength): void => {
+    setSentenceLength(length);
+  };
+
+  // 문장 생성
+  const { sentence, generateSentenceApi, isLoading } = useGenerateSentence({
+    sentenceLength,
+    onSuccess: (result) => {
+      updateParams("sentence", result);
+    },
+  });
+
   return (
     <>
       <div>
@@ -29,7 +43,7 @@ const GenerateSentence = ({
         <div className="flex items-center justify-between mb-2">
           <RadioGroup
             value={sentenceLength}
-            onValueChange={onChangeRadioGroup}
+            onValueChange={handleChangeSentenceLength}
             className="flex"
           >
             {SENTENCE_LENGTHS.map((opt) => (
@@ -45,13 +59,13 @@ const GenerateSentence = ({
             variant="default"
             className="cursor-pointer"
             size="sm"
-            onClick={onGenerate}
+            onClick={generateSentenceApi}
           >
             Generate
             {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
           </Button>
         </div>
-        <Textarea value={sentence} placeholder="Practice sentence" />
+        <Textarea value={sentence} placeholder="Practice sentence" rows={10} />
       </div>
 
       <div className="mt-10">
@@ -62,12 +76,14 @@ const GenerateSentence = ({
         <Textarea
           placeholder="Enter your sentence"
           disabled={sentence === ""}
+          rows={10}
+          onChange={(e) => updateParams("userSentence", e.target.value)}
         />
         <Button
           variant="default"
           className="mt-5 cursor-pointer block ml-auto"
-          onClick={onGenerate}
-          disabled={sentence === ""}
+          disabled={sentence === "" || params.userSentence === ""}
+          onClick={onClickFeedback}
         >
           Submit
           {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
