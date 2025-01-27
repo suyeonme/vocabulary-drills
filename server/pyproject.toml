@@ -4,7 +4,6 @@ version = "0.1.0"
 description = "vocabulary drills server"
 authors = ["Suyeon Kang <suyeon.dev@gmail.com>"]
 license = "MIT"
-readme = "README.md"
 
 packages = [{ include = "app" }]
 
@@ -13,6 +12,7 @@ python = "^3.13"
 fastapi = "^0.115.7"
 uvicorn = "^0.34.0"
 pre-commit = "^4.1.0"
+openai = "^1.60.1"
 
 
 [tool.poetry.group.dev.dependencies]
