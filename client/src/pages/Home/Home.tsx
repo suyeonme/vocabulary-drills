@@ -3,6 +3,8 @@ import Header from "@/components/Header";
 import type { SentenceLength } from "@/api/api.type";
 import useGenerateSentence from "@/hooks/useGenerateSentence";
 import GenerateSentence from "./GenerateSentence";
+import { Title } from "@/components/Title";
+import { Textarea } from "@/components/ui/textarea";
 
 const Home = () => {
   const [sentenceLength, setSentenceLength] =
@@ -30,7 +32,7 @@ const Home = () => {
           />
         </div>
 
-        <div className="w-full lg:w-1/2 p-5">test</div>
+        <div className="w-full lg:w-1/2 p-5"></div>
       </div>
     </section>
   );
